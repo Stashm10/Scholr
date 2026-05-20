@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>College Calculator — Scholr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+#college{background:#fff;padding:80px 0}
+.calc-container{max-width:860px;margin:0 auto;padding:0 32px}
+.calc-card{background:var(--bg);border-radius:24px;padding:40px;margin-bottom:32px}
+.calc-card h3{font-size:17px;font-weight:800;color:var(--navy);margin-bottom:24px;display:flex;align-items:center;gap:10px}
+.calc-card h3 span{background:var(--orange);color:#fff;width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.input-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.input-group{display:flex;flex-direction:column;gap:8px}
+.input-group label{font-size:12px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.6px}
+.input-group input,.input-group select{background:#fff;border:2px solid var(--border);border-radius:12px;padding:13px 16px;font-size:15px;font-family:'Inter',sans-serif;color:var(--text);transition:border-color .2s;outline:none}
+.input-group input:focus,.input-group select:focus{border-color:var(--orange)}
+.test-toggle{display:flex;gap:10px;margin-bottom:16px}
+.test-btn{flex:1;padding:12px;border-radius:12px;border:2px solid var(--border);background:#fff;font-size:14px;font-weight:700;font-family:'Inter',sans-serif;color:var(--muted);cursor:pointer;transition:all .2s}
+.test-btn.active{border-color:var(--orange);color:var(--orange);background:rgba(244,80,12,.05)}
+.ap-chips{display:flex;flex-wrap:wrap;gap:8px}
+.ap-chip{background:#fff;border:2px solid var(--border);border-radius:50px;padding:7px 14px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s;user-select:none}
+.ap-chip.sel{border-color:var(--orange);color:var(--orange);background:rgba(244,80,12,.07)}
+.chip-hint{font-size:11px;color:var(--muted);margin-top:10px}
+.calc-submit{width:100%;background:var(--orange);color:#fff;border:none;padding:18px;border-radius:16px;font-size:16px;font-weight:800;font-family:'Inter',sans-serif;cursor:pointer;transition:all .3s;margin-top:8px}
+.calc-submit:hover{background:var(--orange-dark);transform:translateY(-2px);box-shadow:0 12px 30px rgba(244,80,12,.3)}
+.results-wrap{display:none;animation:fadeUp .4s ease}
+.results-title{font-size:22px;font-weight:800;color:var(--navy);margin-bottom:8px}
+.results-sub{font-size:14px;color:var(--muted);margin-bottom:28px}
+.tier-label{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;margin-top:24px;padding:4px 12px;border-radius:50px;display:inline-block}
+.tier-reach{background:rgba(239,68,68,.1);color:#ef4444}
+.tier-match{background:rgba(34,197,94,.1);color:#16a34a}
+.tier-safety{background:rgba(59,130,246,.1);color:#2563eb}
+.college-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.college-card{background:#fff;border:2px solid var(--border);border-radius:16px;padding:20px;transition:all .25s;animation:fadeUp .4s ease both}
+.college-card:hover{border-color:var(--orange);transform:translateY(-3px);box-shadow:var(--shadow)}
+.college-name{font-size:15px;font-weight:800;color:var(--navy);margin-bottom:6px}
+.college-location{font-size:11px;color:var(--muted);margin-bottom:12px}
+.college-stats{display:flex;gap:10px;flex-wrap:wrap}
+.c-stat{background:var(--bg);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:600;color:var(--navy)}
+.c-stat span{color:var(--muted);font-weight:400}
+.reset-calc{display:inline-flex;align-items:center;gap:6px;background:none;border:2px solid var(--border);color:var(--muted);padding:10px 20px;border-radius:50px;font-size:13px;font-weight:600;cursor:pointer;margin-top:24px;transition:all .2s;font-family:'Inter',sans-serif}
+.reset-calc:hover{border-color:var(--navy);color:var(--navy)}
+.disclaimer{font-size:12px;color:var(--muted);margin-top:20px;padding:16px;background:var(--bg);border-radius:12px;line-height:1.6}
+@media(max-width:600px){.input-row{grid-template-columns:1fr}.college-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header id="site-header">
+  <a class="logo" href="index.html"><img src="scholr-logo2.png" alt="Scholr" style="height:200px;object-fit:contain"></a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="sat.html">SAT</a>
+    <a href="ap.html">AP Classes</a>
+    <a href="college.html" class="active">College Calculator</a>
+    <a href="faq.html">FAQ</a>
+  </nav>
+  <a class="cta-btn" href="sat.html">Start Now →</a>
+  <button class="menu-btn" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</header>
+<div class="mobile-nav" id="mobile-nav">
+  <a href="index.html" onclick="toggleMenu()">Home</a>
+  <a href="sat.html" onclick="toggleMenu()">SAT</a>
+  <a href="ap.html" onclick="toggleMenu()">AP Classes</a>
+  <a href="college.html" onclick="toggleMenu()">College Calculator</a>
+  <a href="faq.html" onclick="toggleMenu()">FAQ</a>
+  <a class="cta-btn" href="sat.html" style="width:fit-content;margin-top:8px">Start Now →</a>
+</div>
+
+<div class="page-wrap">
+<section id="college">
+  <div class="section-header reveal">
+    <div class="sec-tag">College Matching</div>
+    <h1 class="sec-title">College Match Calculator</h1>
+    <p class="sec-sub">Enter your GPA, test scores, and AP courses. Get matched to colleges where you have a strong chance of admission.</p>
+  </div>
+  <div class="calc-container">
+    <div id="calc-form">
+      <div class="calc-card reveal">
+        <h3><span>1</span> Your Academics</h3>
+        <div class="input-row">
+          <div class="input-group">
+            <label>GPA (Unweighted)</label>
+            <input type="number" id="gpa-input" min="0" max="4" step="0.01" placeholder="e.g. 3.7">
+          </div>
+          <div class="input-group">
+            <label>GPA Scale</label>
+            <select id="gpa-scale">
+              <option value="4">4.0 Scale</option>
+              <option value="5">5.0 Scale (Weighted)</option>
+              <option value="100">100-Point Scale</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-card reveal d1">
+        <h3><span>2</span> Test Scores</h3>
+        <div class="test-toggle">
+          <button class="test-btn active" id="sat-btn" onclick="setTest('sat')">SAT</button>
+          <button class="test-btn" id="act-btn" onclick="setTest('act')">ACT</button>
+          <button class="test-btn" id="none-btn" onclick="setTest('none')">Test Optional</button>
+        </div>
+        <div id="sat-field" class="input-group">
+          <label>SAT Score</label>
+          <input type="number" id="sat-input" min="400" max="1600" step="10" placeholder="400 – 1600">
+        </div>
+        <div id="act-field" class="input-group" style="display:none">
+          <label>ACT Score</label>
+          <input type="number" id="act-input" min="1" max="36" placeholder="1 – 36">
+        </div>
+      </div>
+
+      <div class="calc-card reveal d2">
+        <h3><span>3</span> AP Courses Taken</h3>
+        <div class="ap-chips" id="ap-chips"></div>
+        <p class="chip-hint">Select all AP courses you have taken or are currently enrolled in.</p>
+      </div>
+
+      <div class="reveal d3">
+        <button class="calc-submit" onclick="runCalc()">Find My College Matches →</button>
+      </div>
+    </div>
+
+    <div class="results-wrap" id="results-wrap">
+      <div class="results-title">Your College Matches</div>
+      <div class="results-sub" id="results-sub"></div>
+      <div id="results-output"></div>
+      <p class="disclaimer">These matches are estimates based on self-reported data and publicly available admissions statistics. Actual admissions decisions depend on essays, extracurriculars, recommendations, and many other factors. Use these as a starting point, not a guarantee.</p>
+      <button class="reset-calc" onclick="resetCalc()">← Start Over</button>
+    </div>
+  </div>
+</section>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-logo">
+<p>Free, personalized academic guidance for every high school student — no tutors, no paywalls, no excuses.</p>
+        <div class="footer-socials">
+          <a class="soc-btn" href="https://www.tiktok.com/@scholr5" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.93a8.16 8.16 0 004.77 1.52V7.01a4.85 4.85 0 01-1-.32z"/></svg></a>
+          <a class="soc-btn" href="mailto:scholrteam@gmail.com"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Explore</h4><a href="index.html">Home</a><a href="sat.html">SAT Planner</a><a href="ap.html">AP Classes</a><a href="college.html">College Calculator</a><a href="faq.html">FAQ</a></div>
+      <div class="footer-col"><h4>Contact</h4><a href="mailto:scholrteam@gmail.com">scholrteam@gmail.com</a><a href="https://www.tiktok.com/@scholr5" target="_blank">TikTok @scholr5</a></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 Scholr. Built to level the playing field.</p><p>Made with ♥ for students everywhere</p></div>
+  </div>
+</footer>
+
+<script>
+function toggleMenu(){document.getElementById('mobile-nav').classList.toggle('open')}
+let _ly=0;window.addEventListener('scroll',()=>{const y=window.scrollY,h=document.getElementById('site-header');h.classList.toggle('scrolled',y>20);if(y>80)h.classList.toggle('hidden',y>_ly);else h.classList.remove('hidden');_ly=y;});
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')}),{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+const apCourses=["AP Biology","AP Chemistry","AP Physics 1","AP Physics 2","AP Physics C: Mechanics","AP Physics C: E&M","AP Calculus AB","AP Calculus BC","AP Statistics","AP Computer Science A","AP Computer Science Principles","AP Environmental Science","AP Psychology","AP U.S. History","AP World History","AP European History","AP U.S. Government","AP Comparative Government","AP English Language","AP English Literature","AP Spanish Language","AP French Language","AP Art History","AP Microeconomics","AP Macroeconomics","AP Human Geography"];
+const chips=document.getElementById('ap-chips');
+apCourses.forEach(c=>{const el=document.createElement('span');el.className='ap-chip';el.textContent=c;el.onclick=()=>el.classList.toggle('sel');chips.appendChild(el)});
+
+let testType='sat';
+function setTest(t){
+  testType=t;
+  document.getElementById('sat-btn').classList.toggle('active',t==='sat');
+  document.getElementById('act-btn').classList.toggle('active',t==='act');
+  document.getElementById('none-btn').classList.toggle('active',t==='none');
+  document.getElementById('sat-field').style.display=t==='sat'?'flex':'none';
+  document.getElementById('act-field').style.display=t==='act'?'flex':'none';
+}
+
+const actToSat={36:1600,35:1570,34:1540,33:1510,32:1480,31:1450,30:1410,29:1390,28:1360,27:1330,26:1290,25:1260,24:1230,23:1190,22:1160,21:1120,20:1090,19:1050,18:1010,17:970,16:930,15:880,14:830,13:780,12:730};
+
+const colleges=[
+  {n:"MIT",loc:"Cambridge, MA",gpa:4.0,sat:1570,ap:6,rate:"4%"},
+  {n:"Harvard University",loc:"Cambridge, MA",gpa:4.0,sat:1560,ap:6,rate:"4%"},
+  {n:"Stanford University",loc:"Stanford, CA",gpa:3.96,sat:1550,ap:5,rate:"4%"},
+  {n:"Princeton University",loc:"Princeton, NJ",gpa:3.95,sat:1545,ap:5,rate:"5%"},
+  {n:"Yale University",loc:"New Haven, CT",gpa:3.95,sat:1540,ap:5,rate:"5%"},
+  {n:"Columbia University",loc:"New York, NY",gpa:3.93,sat:1535,ap:5,rate:"5%"},
+  {n:"University of Chicago",loc:"Chicago, IL",gpa:3.9,sat:1530,ap:4,rate:"7%"},
+  {n:"UPenn",loc:"Philadelphia, PA",gpa:3.9,sat:1520,ap:4,rate:"7%"},
+  {n:"Duke University",loc:"Durham, NC",gpa:3.9,sat:1510,ap:4,rate:"8%"},
+  {n:"Dartmouth College",loc:"Hanover, NH",gpa:3.88,sat:1505,ap:4,rate:"8%"},
+  {n:"Northwestern University",loc:"Evanston, IL",gpa:3.88,sat:1500,ap:4,rate:"7%"},
+  {n:"Brown University",loc:"Providence, RI",gpa:3.85,sat:1495,ap:4,rate:"8%"},
+  {n:"Vanderbilt University",loc:"Nashville, TN",gpa:3.85,sat:1490,ap:4,rate:"9%"},
+  {n:"Cornell University",loc:"Ithaca, NY",gpa:3.82,sat:1480,ap:4,rate:"11%"},
+  {n:"Rice University",loc:"Houston, TX",gpa:3.9,sat:1530,ap:4,rate:"9%"},
+  {n:"Washington University in St. Louis",loc:"St. Louis, MO",gpa:3.85,sat:1510,ap:4,rate:"13%"},
+  {n:"Notre Dame",loc:"Notre Dame, IN",gpa:3.85,sat:1480,ap:3,rate:"13%"},
+  {n:"Georgetown University",loc:"Washington, D.C.",gpa:3.8,sat:1460,ap:3,rate:"12%"},
+  {n:"Carnegie Mellon University",loc:"Pittsburgh, PA",gpa:3.83,sat:1500,ap:4,rate:"17%"},
+  {n:"UC Berkeley",loc:"Berkeley, CA",gpa:3.87,sat:1455,ap:4,rate:"14%"},
+  {n:"UCLA",loc:"Los Angeles, CA",gpa:3.84,sat:1420,ap:3,rate:"14%"},
+  {n:"University of Michigan",loc:"Ann Arbor, MI",gpa:3.83,sat:1430,ap:3,rate:"20%"},
+  {n:"University of Virginia",loc:"Charlottesville, VA",gpa:3.78,sat:1400,ap:3,rate:"21%"},
+  {n:"Tufts University",loc:"Medford, MA",gpa:3.75,sat:1470,ap:3,rate:"13%"},
+  {n:"Boston University",loc:"Boston, MA",gpa:3.7,sat:1400,ap:3,rate:"19%"},
+  {n:"NYU",loc:"New York, NY",gpa:3.7,sat:1390,ap:3,rate:"21%"},
+  {n:"Emory University",loc:"Atlanta, GA",gpa:3.75,sat:1450,ap:3,rate:"19%"},
+  {n:"Georgia Tech",loc:"Atlanta, GA",gpa:3.9,sat:1480,ap:4,rate:"21%"},
+  {n:"University of Florida",loc:"Gainesville, FL",gpa:3.7,sat:1360,ap:2,rate:"31%"},
+  {n:"Penn State",loc:"State College, PA",gpa:3.55,sat:1280,ap:1,rate:"56%"},
+  {n:"University of Wisconsin",loc:"Madison, WI",gpa:3.7,sat:1380,ap:2,rate:"57%"},
+  {n:"Ohio State University",loc:"Columbus, OH",gpa:3.6,sat:1320,ap:2,rate:"54%"},
+  {n:"Purdue University",loc:"West Lafayette, IN",gpa:3.65,sat:1340,ap:2,rate:"67%"},
+  {n:"Indiana University",loc:"Bloomington, IN",gpa:3.4,sat:1220,ap:1,rate:"82%"},
+  {n:"Arizona State University",loc:"Tempe, AZ",gpa:3.0,sat:1140,ap:0,rate:"88%"}
+];
+
+function norm4(gpa,scale){
+  if(scale==4)return gpa/4;
+  if(scale==5)return Math.min(gpa/4,1);
+  return gpa/100;
+}
+
+function runCalc(){
+  const rawGpa=parseFloat(document.getElementById('gpa-input').value);
+  const scale=parseFloat(document.getElementById('gpa-scale').value);
+  if(isNaN(rawGpa)||rawGpa<=0){alert('Please enter your GPA.');return;}
+  let sat=0;
+  if(testType==='sat'){
+    sat=parseInt(document.getElementById('sat-input').value)||0;
+    if(sat<400||sat>1600){alert('Please enter a valid SAT score (400–1600).');return;}
+  } else if(testType==='act'){
+    const act=parseInt(document.getElementById('act-input').value)||0;
+    if(act<1||act>36){alert('Please enter a valid ACT score (1–36).');return;}
+    sat=actToSat[act]||actToSat[Math.max(12,act)]||800;
+  } else {
+    sat=1200;
+  }
+  const apCount=document.querySelectorAll('.ap-chip.sel').length;
+  const gpa4=norm4(rawGpa,scale);
+  const satN=sat/1600;
+  const apN=Math.min(apCount/8,1);
+  const score=gpa4*0.45+satN*0.45+apN*0.1;
+
+  const scored=colleges.map(c=>{
+    const cScore=(c.gpa/4)*0.45+(c.sat/1600)*0.45+(Math.min(c.ap/8,1))*0.1;
+    const diff=score-cScore;
+    let tier;
+    if(diff<-0.08)tier='reach';
+    else if(diff>0.08)tier='safety';
+    else tier='match';
+    return{...c,cScore,diff,tier};
+  });
+
+  const reach=scored.filter(c=>c.tier==='reach').sort((a,b)=>b.diff-a.diff).slice(0,2);
+  const match=scored.filter(c=>c.tier==='match').sort((a,b)=>Math.abs(a.diff)-Math.abs(b.diff)).slice(0,2);
+  const safety=scored.filter(c=>c.tier==='safety').sort((a,b)=>a.diff-b.diff).slice(0,1);
+
+  const testStr=testType==='none'?'Test Optional':(testType==='sat'?'SAT '+sat:'ACT '+document.getElementById('act-input').value+' (SAT ~'+sat+')');
+  document.getElementById('results-sub').textContent='Based on GPA '+rawGpa.toFixed(2)+', '+testStr+(apCount?' and '+apCount+' AP course'+(apCount===1?'':'s'):'')+'.'
+
+  let html='';
+  function renderTier(label,cls,list){
+    if(!list.length)return;
+    html+='<div class="tier-label '+cls+'">'+label+'</div>';
+    html+='<div class="college-grid">';
+    list.forEach((c,i)=>{
+      html+=`<div class="college-card" style="animation-delay:${i*0.1}s">
+        <div class="college-name">${c.n}</div>
+        <div class="college-location">${c.loc}</div>
+        <div class="college-stats">
+          <div class="c-stat"><span>Admit Rate </span>${c.rate}</div>
+          <div class="c-stat"><span>Mid SAT </span>${c.sat}</div>
+          <div class="c-stat"><span>Mid GPA </span>${c.gpa}</div>
+        </div>
+      </div>`;
+    });
+    html+='</div>';
+  }
+  renderTier('Reach Schools','tier-reach',reach);
+  renderTier('Match Schools','tier-match',match);
+  renderTier('Safety Schools','tier-safety',safety);
+
+  document.getElementById('results-output').innerHTML=html;
+  document.getElementById('calc-form').style.display='none';
+  const rw=document.getElementById('results-wrap');
+  rw.style.display='block';
+  setTimeout(()=>rw.scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+function resetCalc(){
+  document.getElementById('calc-form').style.display='block';
+  document.getElementById('results-wrap').style.display='none';
+  document.querySelectorAll('.ap-chip').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('gpa-input').value='';
+  document.getElementById('sat-input').value='';
+  document.getElementById('act-input').value='';
+  setTest('sat');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body></html>

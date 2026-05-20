@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP Classes — Scholr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+#ap{background:#fff;padding:80px 0}
+.ap-container{max-width:900px;margin:0 auto;padding:0 32px}
+.foxy-row{display:flex;align-items:flex-start;gap:16px;margin-bottom:28px}
+.foxy-av{width:104px;height:104px;border-radius:50%;object-fit:cover;object-position:top;flex-shrink:0}
+.foxy-bubble{background:var(--bg);border-radius:0 18px 18px 18px;padding:20px 24px;max-width:520px}
+.foxy-name{font-size:11px;font-weight:800;color:var(--orange);letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px}
+.foxy-bubble p{font-size:15px;line-height:1.65;color:var(--text)}
+.major-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:32px}
+.major-card{background:#fff;border:2px solid var(--border);border-radius:16px;padding:18px 20px;cursor:pointer;transition:all .25s;display:flex;align-items:center;gap:14px}
+.major-card:hover{border-color:var(--orange);background:rgba(244,80,12,.03);transform:translateY(-3px);box-shadow:var(--shadow)}
+.major-card.sel{border-color:var(--orange);background:rgba(244,80,12,.05)}
+.major-emoji{font-size:28px;width:44px;height:44px;background:var(--bg);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.major-card h4{font-size:13px;font-weight:800;color:var(--navy)}
+.major-card p{font-size:11px;color:var(--muted);margin-top:2px}
+.ap-result-wrap{display:none;animation:fadeUp .4s ease}
+.ap-response{display:flex;align-items:flex-start;gap:16px}
+.ap-list-bubble{background:var(--navy);border-radius:0 18px 18px 18px;padding:24px 28px;max-width:600px}
+.ap-list-bubble h4{font-size:15px;font-weight:800;color:var(--orange);margin-bottom:16px}
+.ap-tags{display:flex;flex-wrap:wrap;gap:8px}
+.ap-tag{background:rgba(255,255,255,.12);color:#fff;padding:7px 14px;border-radius:50px;font-size:12px;font-weight:600;transition:background .2s}
+.ap-tag:hover{background:var(--orange)}
+.reset-btn{display:inline-flex;align-items:center;gap:6px;background:none;border:2px solid var(--border);color:var(--muted);padding:8px 18px;border-radius:50px;font-size:13px;font-weight:600;cursor:pointer;margin-top:20px;transition:all .2s;font-family:'Inter',sans-serif}
+.reset-btn:hover{border-color:var(--navy);color:var(--navy)}
+@media(max-width:600px){.major-grid{grid-template-columns:1fr}.foxy-av{width:72px;height:72px}}
+</style>
+</head>
+<body>
+<header id="site-header">
+  <a class="logo" href="index.html"><img src="scholr-logo2.png" alt="Scholr" style="height:200px;object-fit:contain"></a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="sat.html">SAT</a>
+    <a href="ap.html" class="active">AP Classes</a>
+    <a href="college.html">College Calculator</a>
+    <a href="faq.html">FAQ</a>
+  </nav>
+  <a class="cta-btn" href="sat.html">Start Now →</a>
+  <button class="menu-btn" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</header>
+<div class="mobile-nav" id="mobile-nav">
+  <a href="index.html" onclick="toggleMenu()">Home</a>
+  <a href="sat.html" onclick="toggleMenu()">SAT</a>
+  <a href="ap.html" onclick="toggleMenu()">AP Classes</a>
+  <a href="college.html" onclick="toggleMenu()">College Calculator</a>
+  <a href="faq.html" onclick="toggleMenu()">FAQ</a>
+  <a class="cta-btn" href="sat.html" style="width:fit-content;margin-top:8px">Start Now →</a>
+</div>
+
+<div class="page-wrap">
+<section id="ap">
+  <div class="section-header reveal">
+    <div class="sec-tag">AP Planning</div>
+    <h1 class="sec-title">AP Course Planner</h1>
+    <p class="sec-sub">Tell Foxy your intended major and get a tailored AP course roadmap to strengthen your college application.</p>
+  </div>
+  <div class="ap-container">
+    <div class="foxy-row reveal">
+      <img class="foxy-av" src="foxy-full.png" alt="Foxy">
+      <div class="foxy-bubble">
+        <div class="foxy-name">FOXY · Your Academic Advisor</div>
+        <p>Hey! I'm Foxy 🦊 — I'm here to help you build the perfect AP course plan. <strong>What's your intended major or field of study?</strong> Pick one below and I'll show you exactly which AP classes will give you the strongest foundation!</p>
+      </div>
+    </div>
+
+    <div class="major-grid reveal" id="major-grid">
+      <div class="major-card" onclick="selectMajor(0)"><div class="major-emoji">⚙️</div><div><h4>Engineering</h4><p>Mechanical · Civil · Electrical</p></div></div>
+      <div class="major-card" onclick="selectMajor(1)"><div class="major-emoji">💻</div><div><h4>Computer Science / AI</h4><p>Software Engineering · CS</p></div></div>
+      <div class="major-card" onclick="selectMajor(2)"><div class="major-emoji">🩺</div><div><h4>Pre-Med / Medicine</h4><p>Biology · Pre-Health tracks</p></div></div>
+      <div class="major-card" onclick="selectMajor(3)"><div class="major-emoji">📈</div><div><h4>Business / Finance</h4><p>Accounting · Management</p></div></div>
+      <div class="major-card" onclick="selectMajor(4)"><div class="major-emoji">📉</div><div><h4>Economics / Quant Finance</h4><p>Econometrics · Quant Analysis</p></div></div>
+      <div class="major-card" onclick="selectMajor(5)"><div class="major-emoji">⚖️</div><div><h4>Law / Political Science</h4><p>Pre-Law · Government</p></div></div>
+      <div class="major-card" onclick="selectMajor(6)"><div class="major-emoji">🧠</div><div><h4>Psychology / Neuroscience</h4><p>Behavioral Science · Neuro</p></div></div>
+      <div class="major-card" onclick="selectMajor(7)"><div class="major-emoji">🌿</div><div><h4>Biology / Environmental Science</h4><p>Life Sciences · Ecology</p></div></div>
+      <div class="major-card" onclick="selectMajor(8)"><div class="major-emoji">🎨</div><div><h4>Architecture / Design / Art</h4><p>Visual Arts · Spatial Design</p></div></div>
+      <div class="major-card" onclick="selectMajor(9)"><div class="major-emoji">💊</div><div><h4>Pre-Health / Nursing</h4><p>Allied Health · Nursing Tracks</p></div></div>
+    </div>
+
+    <div class="ap-result-wrap" id="ap-result">
+      <div class="ap-response">
+        <img class="foxy-av" src="foxy-full.png" alt="Foxy">
+        <div class="ap-list-bubble">
+          <h4 id="ap-result-title">Recommended APs for You</h4>
+          <div class="ap-tags" id="ap-tags"></div>
+        </div>
+      </div>
+      <button class="reset-btn" onclick="resetAP()">← Choose a different major</button>
+    </div>
+  </div>
+</section>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-logo">
+<p>Free, personalized academic guidance for every high school student — no tutors, no paywalls, no excuses.</p>
+        <div class="footer-socials">
+          <a class="soc-btn" href="https://www.tiktok.com/@scholr5" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.93a8.16 8.16 0 004.77 1.52V7.01a4.85 4.85 0 01-1-.32z"/></svg></a>
+          <a class="soc-btn" href="mailto:scholrteam@gmail.com"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Explore</h4><a href="index.html">Home</a><a href="sat.html">SAT Planner</a><a href="ap.html">AP Classes</a><a href="college.html">College Calculator</a><a href="faq.html">FAQ</a></div>
+      <div class="footer-col"><h4>Contact</h4><a href="mailto:scholrteam@gmail.com">scholrteam@gmail.com</a><a href="https://www.tiktok.com/@scholr5" target="_blank">TikTok @scholr5</a></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 Scholr. Built to level the playing field.</p><p>Made with ♥ for students everywhere</p></div>
+  </div>
+</footer>
+<script>
+function toggleMenu(){document.getElementById('mobile-nav').classList.toggle('open')}
+let _ly=0;window.addEventListener('scroll',()=>{const y=window.scrollY,h=document.getElementById('site-header');h.classList.toggle('scrolled',y>20);if(y>80)h.classList.toggle('hidden',y>_ly);else h.classList.remove('hidden');_ly=y;});
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')}),{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+const apData=[
+  {name:"Engineering (Mechanical/Civil/Electrical)",aps:["AP Calculus AB","AP Calculus BC","AP Physics 1","AP Physics C: Mechanics","AP Physics C: E&M","AP Chemistry","AP Computer Science A"]},
+  {name:"Computer Science / AI / Software Engineering",aps:["AP Computer Science A","AP Computer Science Principles","AP Calculus AB","AP Calculus BC","AP Statistics","AP Physics 1"]},
+  {name:"Pre-Med / Medicine",aps:["AP Biology","AP Chemistry","AP Physics 1","AP Physics 2","AP Statistics","AP Psychology","AP Calculus AB"]},
+  {name:"Business / Finance / Accounting",aps:["AP Microeconomics","AP Macroeconomics","AP Statistics","AP Calculus AB","AP Computer Science Principles","AP English Language","AP Psychology"]},
+  {name:"Economics / Quantitative Finance",aps:["AP Calculus AB","AP Calculus BC","AP Statistics","AP Microeconomics","AP Macroeconomics","AP Computer Science A","AP Physics 1"]},
+  {name:"Law / Political Science / Pre-Law",aps:["AP U.S. History","AP World History: Modern","AP European History","AP U.S. Government","AP Comparative Government","AP English Language","AP English Literature","AP Psychology"]},
+  {name:"Psychology / Neuroscience",aps:["AP Psychology","AP Biology","AP Chemistry","AP Statistics","AP Calculus AB","AP English Language","AP Environmental Science"]},
+  {name:"Biology / Environmental Science",aps:["AP Biology","AP Environmental Science","AP Chemistry","AP Physics 1","AP Statistics","AP Calculus AB"]},
+  {name:"Architecture / Design / Art",aps:["AP Drawing","AP 2-D Art and Design","AP 3-D Art and Design","AP Art History","AP Calculus AB","AP English Language"]},
+  {name:"Pre-Health / Nursing / Allied Health",aps:["AP Biology","AP Chemistry","AP Psychology","AP Statistics","AP Physics 1","AP English Language","AP Environmental Science"]}
+];
+function selectMajor(i){
+  document.querySelectorAll('.major-card').forEach((c,idx)=>c.classList.toggle('sel',idx===i));
+  const d=apData[i];
+  document.getElementById('ap-result-title').textContent='For '+d.name+', Foxy recommends:';
+  document.getElementById('ap-tags').innerHTML=d.aps.map(a=>'<span class="ap-tag">'+a+'</span>').join('');
+  const res=document.getElementById('ap-result');
+  res.style.display='block';
+  setTimeout(()=>res.scrollIntoView({behavior:'smooth',block:'nearest'}),100);
+}
+function resetAP(){
+  document.querySelectorAll('.major-card').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('ap-result').style.display='none';
+}
+</script>
+</body></html>

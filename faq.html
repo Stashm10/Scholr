@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — Scholr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+#faq{background:#fff;padding:80px 0}
+.faq-container{max-width:760px;margin:0 auto;padding:0 32px}
+.faq-item{border:2px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:12px;transition:border-color .2s}
+.faq-item.open{border-color:var(--orange)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;cursor:pointer;gap:16px;background:#fff;transition:background .2s}
+.faq-item.open .faq-q{background:rgba(244,80,12,.04)}
+.faq-q-text{font-size:15px;font-weight:700;color:var(--navy);line-height:1.4}
+.faq-icon{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s;color:var(--muted)}
+.faq-item.open .faq-icon{background:var(--orange);border-color:var(--orange);color:#fff;transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s ease}
+.faq-item.open .faq-a{max-height:400px}
+.faq-a-inner{padding:0 24px 20px;font-size:14px;line-height:1.8;color:var(--muted)}
+.faq-a-inner a{color:var(--orange);text-decoration:none;font-weight:600}
+.faq-a-inner a:hover{text-decoration:underline}
+.faq-contact{background:var(--bg);border-radius:20px;padding:40px;text-align:center;margin-top:48px}
+.faq-contact h3{font-size:20px;font-weight:800;color:var(--navy);margin-bottom:10px}
+.faq-contact p{font-size:14px;color:var(--muted);margin-bottom:20px}
+.faq-contact-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<header id="site-header">
+  <a class="logo" href="index.html"><img src="scholr-logo2.png" alt="Scholr" style="height:200px;object-fit:contain"></a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="sat.html">SAT</a>
+    <a href="ap.html">AP Classes</a>
+    <a href="college.html">College Calculator</a>
+    <a href="faq.html" class="active">FAQ</a>
+  </nav>
+  <a class="cta-btn" href="sat.html">Start Now →</a>
+  <button class="menu-btn" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</header>
+<div class="mobile-nav" id="mobile-nav">
+  <a href="index.html" onclick="toggleMenu()">Home</a>
+  <a href="sat.html" onclick="toggleMenu()">SAT</a>
+  <a href="ap.html" onclick="toggleMenu()">AP Classes</a>
+  <a href="college.html" onclick="toggleMenu()">College Calculator</a>
+  <a href="faq.html" onclick="toggleMenu()">FAQ</a>
+  <a class="cta-btn" href="sat.html" style="width:fit-content;margin-top:8px">Start Now →</a>
+</div>
+
+<div class="page-wrap">
+<section id="faq">
+  <div class="section-header reveal">
+    <div class="sec-tag">Help Center</div>
+    <h1 class="sec-title">Frequently Asked Questions</h1>
+    <p class="sec-sub">Everything you need to know about Scholr and how it works.</p>
+  </div>
+  <div class="faq-container" id="faq-list"></div>
+</section>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-logo">
+<p>Free, personalized academic guidance for every high school student — no tutors, no paywalls, no excuses.</p>
+        <div class="footer-socials">
+          <a class="soc-btn" href="https://www.tiktok.com/@scholr5" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.93a8.16 8.16 0 004.77 1.52V7.01a4.85 4.85 0 01-1-.32z"/></svg></a>
+          <a class="soc-btn" href="mailto:scholrteam@gmail.com"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Explore</h4><a href="index.html">Home</a><a href="sat.html">SAT Planner</a><a href="ap.html">AP Classes</a><a href="college.html">College Calculator</a><a href="faq.html">FAQ</a></div>
+      <div class="footer-col"><h4>Contact</h4><a href="mailto:scholrteam@gmail.com">scholrteam@gmail.com</a><a href="https://www.tiktok.com/@scholr5" target="_blank">TikTok @scholr5</a></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 Scholr. Built to level the playing field.</p><p>Made with ♥ for students everywhere</p></div>
+  </div>
+</footer>
+
+<script>
+function toggleMenu(){document.getElementById('mobile-nav').classList.toggle('open')}
+let _ly=0;window.addEventListener('scroll',()=>{const y=window.scrollY,h=document.getElementById('site-header');h.classList.toggle('scrolled',y>20);if(y>80)h.classList.toggle('hidden',y>_ly);else h.classList.remove('hidden');_ly=y;});
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')}),{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+const faqs=[
+  {
+    q:"Is Scholr completely free?",
+    a:"Yes — 100% free, always. No account required, no premium tiers, no hidden fees. Scholr exists to give every student access to the same quality guidance that expensive tutoring services charge hundreds or thousands of dollars for."
+  },
+  {
+    q:"How does the SAT Study Planner work?",
+    a:"Enter your current SAT score, your goal score, and how many days per week you can study. Scholr generates a week-by-week study schedule broken down by phase — foundation, skill-building, practice, and review — with recommended resources for each week. The plan is tailored to your exact score gap and timeline."
+  },
+  {
+    q:"What is the AP Course Planner?",
+    a:"The AP Course Planner, powered by Foxy your academic advisor, recommends the most relevant AP classes based on your intended college major. Just click your field of study and Foxy shows you which AP courses will give you the strongest academic foundation and signal to admissions officers."
+  },
+  {
+    q:"How accurate is the College Match Calculator?",
+    a:"The calculator uses publicly available admissions data (mid-50% GPA and SAT ranges, acceptance rates) to estimate whether a college is a reach, match, or safety school for you. It's designed as a starting-point planning tool — not a guarantee. Actual admissions decisions depend on essays, extracurriculars, teacher recommendations, demonstrated interest, and many other factors."
+  },
+  {
+    q:"Does Scholr use AI?",
+    a:"Scholr uses structured logic and curated data rather than live AI — this means results are consistent, fast, and always free without API costs. Foxy is a friendly rule-based advisor, not a chatbot. This keeps the platform reliable and accessible for everyone."
+  },
+  {
+    q:"Which test prep resources does Scholr recommend?",
+    a:'Scholr recommends the three best free SAT prep tools: <a href="https://satsuiteeducatorquestionbank.collegeboard.org/" target="_blank">College Board Question Bank</a> for official practice questions, <a href="https://www.khanacademy.org/digital-sat" target="_blank">Khan Academy SAT</a> for structured lessons, and <a href="https://crackd.it/" target="_blank">Crackd</a> for digital SAT drills. All three are completely free.'
+  },
+  {
+    q:"What GPA scale should I use in the College Calculator?",
+    a:"Most high schools use a 4.0 unweighted scale. If your school uses a weighted GPA (which gives extra points for AP/Honors classes), select the 5.0 scale option. If your school reports grades on a 100-point scale, select the 100-point option. When in doubt, use your unweighted 4.0 GPA for the most accurate comparisons."
+  },
+  {
+    q:"How can I contact the Scholr team?",
+    a:'We\'d love to hear from you! Reach us at <a href="mailto:scholrteam@gmail.com">scholrteam@gmail.com</a> or follow us on <a href="https://www.tiktok.com/@scholr5" target="_blank">TikTok @scholr5</a> for updates, tips, and new features.'
+  }
+];
+
+const list=document.getElementById('faq-list');
+faqs.forEach((f,i)=>{
+  const item=document.createElement('div');
+  item.className='faq-item reveal';
+  if(i>0)item.style.transitionDelay=(i*0.05)+'s';
+  item.innerHTML=`<div class="faq-q" onclick="toggleFAQ(this)">
+    <span class="faq-q-text">${f.q}</span>
+    <span class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+  </div>
+  <div class="faq-a"><div class="faq-a-inner">${f.a}</div></div>`;
+  list.appendChild(item);
+  obs.observe(item);
+});
+
+const contactBlock=document.createElement('div');
+contactBlock.className='faq-contact reveal';
+contactBlock.innerHTML=`<h3>Still have questions?</h3>
+  <p>Our team is happy to help — reach out any time.</p>
+  <div class="faq-contact-btns">
+    <a class="btn-pri" href="mailto:scholrteam@gmail.com">Email Us →</a>
+  </div>`;
+list.appendChild(contactBlock);
+obs.observe(contactBlock);
+
+function toggleFAQ(btn){
+  const item=btn.closest('.faq-item');
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el=>el.classList.remove('open'));
+  if(!isOpen)item.classList.add('open');
+}
+</script>
+</body></html>

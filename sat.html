@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAT Prep — Scholr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+#sat{background:var(--bg);padding:80px 0}
+.sat-container{max-width:1200px;margin:0 auto;padding:0 32px}
+.planner-wrap{background:#fff;border-radius:24px;overflow:hidden;box-shadow:var(--shadowlg);margin-bottom:64px}
+.planner-head{background:var(--navy);padding:28px 40px;display:flex;align-items:center;gap:16px}
+.planner-head-text h3{font-size:20px;font-weight:800;color:#fff}
+.planner-head-text p{font-size:13px;color:rgba(255,255,255,.6);margin-top:3px}
+.planner-body{padding:40px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+.pi-group{display:flex;flex-direction:column;gap:8px}
+.pi-group label{font-size:13px;font-weight:700;color:var(--navy)}
+.pi-group input{padding:14px 16px;border:2px solid var(--border);border-radius:12px;font-size:15px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s}
+.pi-group input:focus{border-color:var(--orange)}
+.pi-group .hint{font-size:12px;color:var(--muted);margin-top:4px}
+.gen-btn{width:100%;padding:16px;background:var(--orange);color:#fff;border:none;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;transition:all .3s;margin-top:8px;font-family:'Inter',sans-serif}
+.gen-btn:hover{background:var(--orange-dark);box-shadow:0 8px 24px rgba(244,80,12,.3)}
+.planner-result{grid-column:1/-1;display:none;animation:fadeUp .4s ease}
+.result-inner{background:var(--bg);border-radius:16px;padding:28px}
+.r-badge{display:inline-block;padding:5px 14px;border-radius:8px;font-size:12px;font-weight:800;margin-bottom:16px}
+.r-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.r-stat{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+.r-val{font-size:24px;font-weight:800;color:var(--navy)}
+.r-lbl{font-size:11px;color:var(--muted);margin-top:2px}
+.r-text{font-size:14px;line-height:1.75;color:var(--muted)}
+.r-total{font-size:13px;color:var(--muted);padding-top:14px;margin-top:14px;border-top:1px solid var(--border)}
+.p-err{font-size:13px;color:#c0392b;margin-top:6px;display:none}
+.subsection-title{font-size:26px;font-weight:800;color:var(--navy);letter-spacing:-.5px;margin-bottom:8px}
+.subsection-sub{font-size:14px;color:var(--muted);margin-bottom:28px}
+.yt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:64px}
+.yt-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);transition:all .3s;border:1px solid var(--border)}
+.yt-card:hover{transform:translateY(-6px);box-shadow:var(--shadowlg)}
+.yt-card-link{display:flex;text-decoration:none;height:190px;background:var(--navy);align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#fff;transition:background .3s}
+.yt-card-link:hover{background:var(--navy-light)}
+.yt-play{width:56px;height:56px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.yt-card-info{padding:16px}
+.yt-card-info h4{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.yt-card-info p{font-size:12px;color:var(--muted)}
+.tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.tool-card{background:#fff;border-radius:16px;padding:28px 24px;text-align:center;border:2px solid var(--border);transition:all .3s;text-decoration:none;display:block}
+.tool-card:hover{border-color:var(--orange);transform:translateY(-6px);box-shadow:var(--shadowlg)}
+.tool-logo{height:72px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.tool-card h4{font-size:15px;font-weight:800;color:var(--navy);margin-bottom:6px}
+.tool-card p{font-size:13px;color:var(--muted);line-height:1.6}
+.tool-arrow{display:inline-flex;align-items:center;gap:4px;color:var(--orange);font-size:12px;font-weight:700;margin-top:12px}
+@media(max-width:900px){.planner-body{grid-template-columns:1fr}.yt-grid{grid-template-columns:1fr 1fr}.tools-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.yt-grid{grid-template-columns:1fr}.tools-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header id="site-header">
+  <a class="logo" href="index.html"><img src="scholr-logo2.png" alt="Scholr" style="height:200px;object-fit:contain"></a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="sat.html" class="active">SAT</a>
+    <a href="ap.html">AP Classes</a>
+    <a href="college.html">College Calculator</a>
+    <a href="faq.html">FAQ</a>
+  </nav>
+  <a class="cta-btn" href="sat.html">Start Now →</a>
+  <button class="menu-btn" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</header>
+<div class="mobile-nav" id="mobile-nav">
+  <a href="index.html" onclick="toggleMenu()">Home</a>
+  <a href="sat.html" onclick="toggleMenu()">SAT</a>
+  <a href="ap.html" onclick="toggleMenu()">AP Classes</a>
+  <a href="college.html" onclick="toggleMenu()">College Calculator</a>
+  <a href="faq.html" onclick="toggleMenu()">FAQ</a>
+  <a class="cta-btn" href="sat.html" style="width:fit-content;margin-top:8px">Start Now →</a>
+</div>
+
+<div class="page-wrap">
+<section id="sat">
+  <div class="section-header reveal">
+    <div class="sec-tag">SAT Prep</div>
+    <h1 class="sec-title">Master the SAT</h1>
+    <p class="sec-sub">A personalized study plan, the best YouTube resources, and practice tools — all in one place.</p>
+  </div>
+  <div class="sat-container">
+
+    <!-- Schedule Generator -->
+    <div class="planner-wrap reveal">
+      <div class="planner-head">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="22" fill="rgba(255,255,255,.1)"/><text x="22" y="29" text-anchor="middle" font-size="20">📅</text></svg>
+        <div class="planner-head-text">
+          <h3>Your Personalized SAT Schedule</h3>
+          <p>Enter your scores below — we'll build a custom study plan for you</p>
+        </div>
+      </div>
+      <div class="planner-body">
+        <div class="pi-group">
+          <label>Current SAT Score (or most recent practice score)</label>
+          <input type="number" id="p-current" min="400" max="1590" placeholder="e.g. 1050">
+          <span class="hint">Haven't taken it yet? Use your practice test score.</span>
+        </div>
+        <div class="pi-group">
+          <label>Goal SAT Score</label>
+          <input type="number" id="p-goal" min="400" max="1600" placeholder="e.g. 1400">
+        </div>
+        <div class="pi-group">
+          <label>Study days per week</label>
+          <input type="number" id="p-days" min="1" max="7" placeholder="e.g. 5">
+        </div>
+        <div style="display:flex;flex-direction:column;justify-content:flex-end">
+          <p id="p-err" class="p-err"></p>
+          <button class="gen-btn" onclick="generatePlan()">Generate My Schedule</button>
+        </div>
+        <div class="planner-result" id="planner-result">
+          <div class="result-inner">
+            <span id="r-badge" class="r-badge"></span>
+            <p id="r-summary" class="r-text"></p>
+            <div class="r-stats">
+              <div class="r-stat"><div class="r-val" id="r-hours"></div><div class="r-lbl">hours / day</div></div>
+              <div class="r-stat"><div class="r-val" id="r-days"></div><div class="r-lbl">days / week</div></div>
+              <div class="r-stat"><div class="r-val" id="r-months"></div><div class="r-lbl">months</div></div>
+            </div>
+            <p id="r-practice" class="r-text"></p>
+            <p id="r-total" class="r-total"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- YouTube -->
+    <div class="reveal">
+      <div class="subsection-title">Best YouTube Videos for Crushing the SAT</div>
+      <p class="subsection-sub">Skip the endless searching — these are the highest-quality free SAT prep videos available.</p>
+    </div>
+    <div class="yt-grid reveal">
+      <div class="yt-card">
+        <a href="https://www.youtube.com/watch?v=mdZ5VPtpJuk" target="_blank" rel="noopener" style="display:block;position:relative;text-decoration:none">
+          <img src="https://img.youtube.com/vi/mdZ5VPtpJuk/hqdefault.jpg" style="width:100%;height:190px;object-fit:cover;display:block">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.25)" onmouseover="this.style.background='rgba(0,0,0,.45)'" onmouseout="this.style.background='rgba(0,0,0,.25)'">
+            <div style="width:56px;height:56px;background:red;border-radius:12px;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+        </a>
+        <div class="yt-card-info"><h4>SAT Math Full Walkthrough</h4><p>Comprehensive math section breakdown with strategies</p></div>
+      </div>
+      <div class="yt-card">
+        <a href="https://www.youtube.com/watch?v=-pGNBb8M3LQ" target="_blank" rel="noopener" style="display:block;position:relative;text-decoration:none">
+          <img src="https://img.youtube.com/vi/-pGNBb8M3LQ/hqdefault.jpg" style="width:100%;height:190px;object-fit:cover;display:block">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.25)" onmouseover="this.style.background='rgba(0,0,0,.45)'" onmouseout="this.style.background='rgba(0,0,0,.25)'">
+            <div style="width:56px;height:56px;background:red;border-radius:12px;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+        </a>
+        <div class="yt-card-info"><h4>SAT Score Improvement Tips</h4><p>Proven techniques to boost your score fast</p></div>
+      </div>
+      <div class="yt-card">
+        <a class="yt-card-link" href="https://www.youtube.com/@SetteleTutoring" target="_blank" rel="noopener">
+          <div class="yt-play"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>
+          <span style="font-size:15px;font-weight:700">Settele Tutoring</span>
+          <span style="font-size:12px;opacity:.7">Visit Channel →</span>
+        </a>
+        <div class="yt-card-info"><h4>Settele Tutoring Channel</h4><p>Expert SAT tutoring — math & reading deep dives</p></div>
+      </div>
+    </div>
+
+    <!-- Tools -->
+    <div class="reveal" style="margin-top:48px">
+      <div class="subsection-title">Essential Study Tools</div>
+      <p class="subsection-sub">The best free tools every SAT student should bookmark.</p>
+    </div>
+    <div class="tools-grid reveal">
+      <a class="tool-card" href="https://satsuiteeducatorquestionbank.collegeboard.org/" target="_blank" rel="noopener">
+        <div class="tool-logo"><img src="https://logo.clearbit.com/collegeboard.org" alt="College Board" style="width:72px;height:72px;object-fit:contain;border-radius:16px" onerror="this.src='https://www.google.com/s2/favicons?domain=collegeboard.org&sz=128'"></div>
+        <h4>College Board Question Bank</h4>
+        <p>Official SAT questions from College Board — the most authentic practice available</p>
+        <div class="tool-arrow">Open Question Bank →</div>
+      </a>
+      <a class="tool-card" href="https://www.khanacademy.org/digital-sat" target="_blank" rel="noopener">
+        <div class="tool-logo"><img src="https://logo.clearbit.com/khanacademy.org" alt="Khan Academy" style="width:72px;height:72px;object-fit:contain;border-radius:16px" onerror="this.src='https://www.google.com/s2/favicons?domain=khanacademy.org&sz=128'"></div>
+        <h4>Khan Academy SAT</h4>
+        <p>Official Digital SAT prep by College Board — personalized practice and full-length tests</p>
+        <div class="tool-arrow">Start on Khan →</div>
+      </a>
+      <a class="tool-card" href="https://crackd.it/" target="_blank" rel="noopener">
+        <div class="tool-logo"><img src="https://logo.clearbit.com/crackd.it" alt="Crackd" style="width:72px;height:72px;object-fit:contain;border-radius:16px" onerror="this.src='https://www.google.com/s2/favicons?domain=crackd.it&sz=128'"></div>
+        <h4>Crackd</h4>
+        <p>AI-powered SAT practice with instant explanations and real College Board questions</p>
+        <div class="tool-arrow">Try Crackd →</div>
+      </a>
+    </div>
+  </div>
+</section>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-logo">
+<p>Free, personalized academic guidance for every high school student — no tutors, no paywalls, no excuses.</p>
+        <div class="footer-socials">
+          <a class="soc-btn" href="https://www.tiktok.com/@scholr5" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.93a8.16 8.16 0 004.77 1.52V7.01a4.85 4.85 0 01-1-.32z"/></svg></a>
+          <a class="soc-btn" href="mailto:scholrteam@gmail.com"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Explore</h4><a href="index.html">Home</a><a href="sat.html">SAT Planner</a><a href="ap.html">AP Classes</a><a href="college.html">College Calculator</a><a href="faq.html">FAQ</a></div>
+      <div class="footer-col"><h4>Contact</h4><a href="mailto:scholrteam@gmail.com">scholrteam@gmail.com</a><a href="https://www.tiktok.com/@scholr5" target="_blank">TikTok @scholr5</a></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 Scholr. Built to level the playing field.</p><p>Made with ♥ for students everywhere</p></div>
+  </div>
+</footer>
+<script>
+function toggleMenu(){document.getElementById('mobile-nav').classList.toggle('open')}
+let _ly=0;window.addEventListener('scroll',()=>{const y=window.scrollY,h=document.getElementById('site-header');h.classList.toggle('scrolled',y>20);if(y>80)h.classList.toggle('hidden',y>_ly);else h.classList.remove('hidden');_ly=y;});
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')}),{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+function generatePlan(){
+  const err=document.getElementById('p-err'),res=document.getElementById('planner-result');
+  err.style.display='none';res.style.display='none';
+  const cur=+document.getElementById('p-current').value,goal=+document.getElementById('p-goal').value,days=+document.getElementById('p-days').value;
+  if(!cur||!goal||!days){err.textContent='Please fill in all three fields.';err.style.display='block';return}
+  if(goal<=cur){err.textContent='Goal score must be higher than your current score.';err.style.display='block';return}
+  if(cur<400||cur>1590){err.textContent='Current score must be between 400 and 1590.';err.style.display='block';return}
+  if(goal>1600){err.textContent='Goal score cannot exceed 1600.';err.style.display='block';return}
+  if(days<1||days>7){err.textContent='Study days must be between 1 and 7.';err.style.display='block';return}
+  if(cur>=1500){err.textContent="You're already at 1500+! Focus on targeted weak-area practice — you're nearly perfect.";err.style.display='block';return}
+  let hL,hH,sd,mo,ts,lb,bg,tc;
+  if(cur<1100){hL=4;hH=6;sd=days;mo=4;ts=2;lb='Foundation Builder';bg='#FAECE7';tc='#712B13'}
+  else if(cur<1300){hL=3;hH=5;sd=days;mo=3;ts=2;lb='Score Booster';bg='#FEF3C7';tc='#92400E'}
+  else if(cur<1400){hL=2;hH=4;sd=Math.max(1,days-1);mo=2;ts=1;lb='Competitive Climber';bg='#D1FAE5';tc='#065F46'}
+  else{hL=1;hH=3;sd=Math.max(1,days-2);mo=1;ts=1;lb='Elite Refinement';bg='#EDE9FE';tc='#4C1D95'}
+  const total=Math.round(((hL+hH)/2)*sd*(mo*4));
+  const badge=document.getElementById('r-badge');
+  badge.textContent=lb;badge.style.background=bg;badge.style.color=tc;
+  document.getElementById('r-hours').textContent=hL+'–'+hH;
+  document.getElementById('r-days').textContent=sd;
+  document.getElementById('r-months').textContent=mo;
+  document.getElementById('r-summary').innerHTML='To go from <strong>'+cur+'</strong> → <strong>'+goal+'</strong>: study <strong>'+hL+'–'+hH+' hrs/day</strong> on <strong>'+sd+' days/week</strong> for <strong>'+mo+' month'+(mo>1?'s':'')+'</strong>.';
+  document.getElementById('r-practice').innerHTML='<strong>📝 Practice tests:</strong> Take <strong>'+ts+' full test'+(ts>1?'s':'')+' per week</strong> to track progress and build stamina.';
+  document.getElementById('r-total').innerHTML='Estimated total prep time: <strong>~'+total+' hours</strong> over '+mo+' month'+(mo>1?'s':'')+'.';
+  res.style.display='block';
+}
+</script>
+</body></html>
