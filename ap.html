@@ -132,6 +132,8 @@ const apData=[
   {name:"Pre-Health / Nursing / Allied Health",aps:["AP Biology","AP Chemistry","AP Psychology","AP Statistics","AP Physics 1","AP English Language","AP Environmental Science"]}
 ];
 function selectMajor(i){
+  i=parseInt(i,10);
+  if(isNaN(i)||i<0||i>=apData.length)return;
   document.querySelectorAll('.major-card').forEach((c,idx)=>c.classList.toggle('sel',idx===i));
   const d=apData[i];
   document.getElementById('ap-result-title').textContent='For '+d.name+', Foxy recommends:';
