@@ -58,21 +58,21 @@
   <a class="logo" href="index.html"><img src="scholr-logo2.png" alt="Scholr" style="height:200px;object-fit:contain"></a>
   <nav>
     <a href="index.html">Home</a>
-    <a href="sat" class="active">SAT</a>
+    <a href="sat.html" class="active">SAT</a>
     <a href="ap.html">AP Classes</a>
     <a href="college.html">College Calculator</a>
     <a href="faq.html">FAQ</a>
   </nav>
-  <a class="cta-btn" href="sat">Start Now →</a>
+  <a class="cta-btn" href="sat.html">Start Now →</a>
   <button class="menu-btn" onclick="toggleMenu()"><span></span><span></span><span></span></button>
 </header>
 <div class="mobile-nav" id="mobile-nav">
   <a href="index.html" onclick="toggleMenu()">Home</a>
-  <a href="sat" onclick="toggleMenu()">SAT</a>
+  <a href="sat.html" onclick="toggleMenu()">SAT</a>
   <a href="ap.html" onclick="toggleMenu()">AP Classes</a>
   <a href="college.html" onclick="toggleMenu()">College Calculator</a>
   <a href="faq.html" onclick="toggleMenu()">FAQ</a>
-  <a class="cta-btn" href="sat" style="width:fit-content;margin-top:8px">Start Now →</a>
+  <a class="cta-btn" href="sat.html" style="width:fit-content;margin-top:8px">Start Now →</a>
 </div>
 
 <div class="page-wrap">
@@ -201,10 +201,10 @@
           <a class="soc-btn" href="mailto:scholrteam@gmail.com"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg></a>
         </div>
       </div>
-      <div class="footer-col"><h4>Explore</h4><a href="index.html">Home</a><a href="sat">SAT Planner</a><a href="ap.html">AP Classes</a><a href="college.html">College Calculator</a><a href="faq.html">FAQ</a></div>
+      <div class="footer-col"><h4>Explore</h4><a href="index.html">Home</a><a href="sat.html">SAT Planner</a><a href="ap.html">AP Classes</a><a href="college.html">College Calculator</a><a href="faq.html">FAQ</a></div>
       <div class="footer-col"><h4>Contact</h4><a href="mailto:scholrteam@gmail.com">scholrteam@gmail.com</a><a href="https://www.tiktok.com/@scholr5" target="_blank">TikTok @scholr5</a></div>
     </div>
-    <div class="footer-bottom"><p>© 2025 Scholr. Built to level the playing field.</p></div>
+    <div class="footer-bottom"><p>© 2025 Scholr. Built to level the playing field.</p><p>Made with ♥ for students everywhere</p></div>
   </div>
 </footer>
 <script>
@@ -215,13 +215,25 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 function generatePlan(){
   const err=document.getElementById('p-err'),res=document.getElementById('planner-result');
   err.style.display='none';res.style.display='none';
-  const cur=+document.getElementById('p-current').value,goal=+document.getElementById('p-goal').value,days=+document.getElementById('p-days').value;
-  if(!cur||!goal||!days){err.textContent='Please fill in all three fields.';err.style.display='block';return}
-  if(goal<=cur){err.textContent='Goal score must be higher than your current score.';err.style.display='block';return}
-  if(cur<400||cur>1590){err.textContent='Current score must be between 400 and 1590.';err.style.display='block';return}
-  if(goal>1600){err.textContent='Goal score cannot exceed 1600.';err.style.display='block';return}
-  if(days<1||days>7){err.textContent='Study days must be between 1 and 7.';err.style.display='block';return}
-  if(cur>=1500){err.textContent="You're already at 1500+! Focus on targeted weak-area practice — you're nearly perfect.";err.style.display='block';return}
+  function fail(msg){err.textContent=msg;err.style.display='block'}
+  const cs=document.getElementById('p-current').value.trim(),
+        gs=document.getElementById('p-goal').value.trim(),
+        ds=document.getElementById('p-days').value.trim();
+  // presence check
+  if(!cs||!gs||!ds)return fail('Please fill in all three fields.');
+  // oversized input guard (SAT scores ≤4 digits, days ≤1 digit)
+  if(cs.length>4||gs.length>4)return fail('Score value is too long.');
+  if(ds.length>1)return fail('Study days must be a single digit (1–7).');
+  // must be plain positive integers — reject decimals, letters, symbols
+  if(!/^\d+$/.test(cs)||!/^\d+$/.test(gs)||!/^\d+$/.test(ds))
+    return fail('Scores and days must be whole numbers — no decimals or letters.');
+  const cur=parseInt(cs,10),goal=parseInt(gs,10),days=parseInt(ds,10);
+  // range checks
+  if(cur<400||cur>1590)return fail('Current score must be between 400 and 1590.');
+  if(goal<410||goal>1600)return fail('Goal score must be between 410 and 1600.');
+  if(goal<=cur)return fail('Goal score must be higher than your current score.');
+  if(days<1||days>7)return fail('Study days must be between 1 and 7.');
+  if(cur>=1500)return fail("You're already at 1500+! Focus on targeted weak-area practice — you're nearly perfect.");
   let hL,hH,sd,mo,ts,lb,bg,tc;
   if(cur<1100){hL=4;hH=6;sd=days;mo=4;ts=2;lb='Foundation Builder';bg='#FAECE7';tc='#712B13'}
   else if(cur<1300){hL=3;hH=5;sd=days;mo=3;ts=2;lb='Score Booster';bg='#FEF3C7';tc='#92400E'}
@@ -233,6 +245,7 @@ function generatePlan(){
   document.getElementById('r-hours').textContent=hL+'–'+hH;
   document.getElementById('r-days').textContent=sd;
   document.getElementById('r-months').textContent=mo;
+  // safe: cur/goal/hL/hH/sd/mo are all validated integers — no user strings in innerHTML
   document.getElementById('r-summary').innerHTML='To go from <strong>'+cur+'</strong> → <strong>'+goal+'</strong>: study <strong>'+hL+'–'+hH+' hrs/day</strong> on <strong>'+sd+' days/week</strong> for <strong>'+mo+' month'+(mo>1?'s':'')+'</strong>.';
   document.getElementById('r-practice').innerHTML='<strong>📝 Practice tests:</strong> Take <strong>'+ts+' full test'+(ts>1?'s':'')+' per week</strong> to track progress and build stamina.';
   document.getElementById('r-total').innerHTML='Estimated total prep time: <strong>~'+total+' hours</strong> over '+mo+' month'+(mo>1?'s':'')+'.';
